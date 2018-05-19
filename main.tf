@@ -153,7 +153,7 @@ resource "aws_api_gateway_method" "antifragile-service" {
   resource_id      = "${aws_api_gateway_resource.antifragile-service-2.id}"
   http_method      = "ANY"
   authorization    = "NONE"
-  api_key_required = true
+  api_key_required = "${var.api_key_required}"
 
   request_parameters {
     "method.request.path.proxy" = true
@@ -207,6 +207,7 @@ resource "aws_api_gateway_usage_plan_key" "antifragile-service" {
 
 resource "aws_api_gateway_deployment" "antifragile-service" {
   depends_on = [
+    "aws_api_gateway_usage_plan.antifragile-service",
     "aws_api_gateway_integration.antifragile-service",
   ]
 

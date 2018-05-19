@@ -16,6 +16,10 @@ variable "container_port" {
   default = 3000
 }
 
+variable "api_key_required" {
+  default = false
+}
+
 variable "api_quota_limit" {
   default = 20
 }
