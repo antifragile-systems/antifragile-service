@@ -131,3 +131,53 @@ resource "aws_ecs_service" "antifragile-service" {
     ]
   }
 }
+
+data "aws_api_gateway_rest_api" "antifragile-service" {
+  name = "${var.infrastructure_name}"
+}
+
+resource "aws_api_gateway_resource" "antifragile-service-1" {
+  rest_api_id = "${data.aws_api_gateway_rest_api.antifragile-service.id}"
+  parent_id   = "${data.aws_api_gateway_rest_api.antifragile-service.root_resource_id}"
+  path_part   = "${var.name}"
+}
+
+resource "aws_api_gateway_resource" "antifragile-service-2" {
+  rest_api_id = "${data.aws_api_gateway_rest_api.antifragile-service.id}"
+  parent_id   = "${aws_api_gateway_resource.antifragile-service-1.id}"
+  path_part   = "{proxy+}"
+}
+
+resource "aws_api_gateway_method" "antifragile-service" {
+  rest_api_id   = "${data.aws_api_gateway_rest_api.antifragile-service.id}"
+  resource_id   = "${aws_api_gateway_resource.antifragile-service-2.id}"
+  http_method   = "ANY"
+  authorization = "NONE"
+
+  request_parameters {
+    "method.request.path.proxy" = true
+  }
+}
+
+resource "aws_api_gateway_integration" "antifragile-service" {
+  rest_api_id             = "${data.aws_api_gateway_rest_api.antifragile-service.id}"
+  resource_id             = "${aws_api_gateway_resource.antifragile-service-2.id}"
+  http_method             = "${aws_api_gateway_method.antifragile-service.http_method}"
+  integration_http_method = "ANY"
+  type                    = "HTTP_PROXY"
+  uri                     = "http://${data.aws_lb.selected.dns_name}/{proxy}"
+
+  request_parameters {
+    "integration.request.path.proxy"  = "method.request.path.proxy"
+    "integration.request.header.Host" = "'${var.name}.${var.domain}'"
+  }
+}
+
+resource "aws_api_gateway_deployment" "antifragile-service" {
+  depends_on = [
+    "aws_api_gateway_integration.antifragile-service",
+  ]
+
+  rest_api_id = "${data.aws_api_gateway_rest_api.antifragile-service.id}"
+  stage_name  = "production"
+}
