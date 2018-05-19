@@ -125,11 +125,11 @@ resource "aws_ecs_service" "antifragile-service" {
     field = "instanceId"
   }
 
-  lifecycle {
-    ignore_changes = [
-      "task_definition",
-    ]
-  }
+  /*  lifecycle {
+      ignore_changes = [
+        "task_definition",
+      ]
+    }*/
 }
 
 data "aws_api_gateway_rest_api" "antifragile-service" {
@@ -149,10 +149,11 @@ resource "aws_api_gateway_resource" "antifragile-service-2" {
 }
 
 resource "aws_api_gateway_method" "antifragile-service" {
-  rest_api_id   = "${data.aws_api_gateway_rest_api.antifragile-service.id}"
-  resource_id   = "${aws_api_gateway_resource.antifragile-service-2.id}"
-  http_method   = "ANY"
-  authorization = "NONE"
+  rest_api_id      = "${data.aws_api_gateway_rest_api.antifragile-service.id}"
+  resource_id      = "${aws_api_gateway_resource.antifragile-service-2.id}"
+  http_method      = "ANY"
+  authorization    = "NONE"
+  api_key_required = true
 
   request_parameters {
     "method.request.path.proxy" = true
@@ -173,11 +174,42 @@ resource "aws_api_gateway_integration" "antifragile-service" {
   }
 }
 
+resource "aws_api_gateway_usage_plan" "antifragile-service" {
+  name = "${var.name}"
+
+  api_stages {
+    api_id = "${data.aws_api_gateway_rest_api.antifragile-service.id}"
+    stage  = "${var.api_stage_name}"
+  }
+
+  quota_settings {
+    limit  = "${var.api_quota_limit}"
+    offset = "${var.api_quota_offset}"
+    period = "${var.api_quota_period}"
+  }
+
+  throttle_settings {
+    burst_limit = "${var.api_throttle_burst_limit}"
+    rate_limit  = "${var.api_throttle_rate_limit}"
+  }
+}
+
+resource "aws_api_gateway_api_key" "antifragile-service" {
+  name = "${var.name}"
+}
+
+resource "aws_api_gateway_usage_plan_key" "antifragile-service" {
+  usage_plan_id = "${aws_api_gateway_usage_plan.antifragile-service.id}"
+
+  key_id   = "${aws_api_gateway_api_key.antifragile-service.id}"
+  key_type = "API_KEY"
+}
+
 resource "aws_api_gateway_deployment" "antifragile-service" {
   depends_on = [
     "aws_api_gateway_integration.antifragile-service",
   ]
 
   rest_api_id = "${data.aws_api_gateway_rest_api.antifragile-service.id}"
-  stage_name  = "production"
+  stage_name  = "${var.api_stage_name}"
 }
