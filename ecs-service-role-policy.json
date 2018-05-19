@@ -26,7 +26,10 @@
         "servicediscovery:Get*",
         "servicediscovery:List*",
         "servicediscovery:RegisterInstance",
-        "servicediscovery:UpdateInstanceCustomHealthStatus"
+        "servicediscovery:UpdateInstanceCustomHealthStatus",
+        "logs:Create*",
+        "logs:DescribeLogStreams",
+        "logs:Put*"
       ],
       "Resource": [
         "*"
