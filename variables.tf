@@ -4,7 +4,7 @@ variable "infrastructure_name" {
 
 variable "name" {}
 
-variable "domain" {}
+variable "domain_name" {}
 
 variable "container_definitions_file" {}
 

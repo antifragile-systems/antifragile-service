@@ -1,12 +1,12 @@
 locals {
-  hostname = "${var.name}.${var.domain}"
+  hostname = "${var.name}.${var.domain_name}"
 }
 
 module "cluster" {
   source = "./modules/cluster"
 
   aws_region                 = "${var.aws_region}"
-  domain                     = "${var.domain}"
+  domain_name                = "${var.domain_name}"
   container_port             = "${var.container_port}"
   container_definitions_file = "${var.container_definitions_file}"
   infrastructure_name        = "${var.infrastructure_name}"
@@ -20,7 +20,7 @@ module "api" {
 
   infrastructure_name             = "${var.infrastructure_name}"
   name                            = "${var.name}"
-  domain                          = "${var.domain}"
+  domain_name                     = "${var.domain_name}"
   api_stage_name                  = "${var.api_stage_name}"
   api_quota_limit                 = "${var.api_quota_limit}"
   api_throttle_rate_limit         = "${var.api_throttle_rate_limit}"

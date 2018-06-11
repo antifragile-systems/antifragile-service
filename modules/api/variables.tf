@@ -2,7 +2,7 @@ variable "infrastructure_name" {}
 
 variable "name" {}
 
-variable "domain" {}
+variable "domain_name" {}
 
 variable "api_keys" {
   type = "list"

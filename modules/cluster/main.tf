@@ -8,7 +8,7 @@ module "loadbalancer" {
   infrastructure_name        = "${var.infrastructure_name}"
   name                       = "${var.name}"
   container_definitions_file = "${var.container_definitions_file}"
-  domain                     = "${var.domain}"
+  domain_name                = "${var.domain_name}"
   container_port             = "${var.container_port}"
   health_check_path          = "${var.health_check_path}"
 }

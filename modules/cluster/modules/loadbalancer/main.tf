@@ -1,5 +1,5 @@
 locals {
-  hostname = "${var.name}.${var.domain}"
+  hostname = "${var.name}.${var.domain_name}"
 }
 
 data "aws_vpc" "antifragile-service" {
@@ -108,7 +108,7 @@ resource "aws_alb_listener_rule" "antifragile-service-3" {
 }
 
 data "aws_route53_zone" "selected" {
-  name = "${var.domain}."
+  name = "${var.domain_name}."
 }
 
 resource "aws_route53_record" "antifragile-service" {
