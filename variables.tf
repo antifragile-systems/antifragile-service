@@ -6,7 +6,7 @@ variable "name" {}
 
 variable "domain" {}
 
-variable "container_definitions" {}
+variable "container_definitions_file" {}
 
 variable "health_check_path" {
   default = "/ping"
@@ -16,8 +16,9 @@ variable "container_port" {
   default = 3000
 }
 
-variable "api_key_required" {
-  default = false
+variable "api_keys" {
+  type    = "list"
+  default = []
 }
 
 variable "api_quota_limit" {
@@ -42,4 +43,8 @@ variable "api_throttle_rate_limit" {
 
 variable "api_stage_name" {
   default = "production"
+}
+
+variable "aws_region" {
+  default = "eu-west-1"
 }
