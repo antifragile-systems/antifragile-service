@@ -5,14 +5,14 @@ locals {
 module "cluster" {
   source = "./modules/cluster"
 
-  aws_region                 = "${var.aws_region}"
-  domain_name                = "${var.domain_name}"
-  container_port             = "${var.container_port}"
-  container_definitions_file = "${var.container_definitions_file}"
-  infrastructure_name        = "${var.infrastructure_name}"
-  name                       = "${var.name}"
-  health_check_path          = "${var.health_check_path}"
-  api_keys                   = "${var.api_keys}"
+  aws_region            = "${var.aws_region}"
+  domain_name           = "${var.domain_name}"
+  container_port        = "${var.container_port}"
+  container_definitions = "${var.container_definitions}"
+  infrastructure_name   = "${var.infrastructure_name}"
+  name                  = "${var.name}"
+  health_check_path     = "${var.health_check_path}"
+  api_keys              = "${var.api_keys}"
 }
 
 module "api" {

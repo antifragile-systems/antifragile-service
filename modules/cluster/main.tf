@@ -5,16 +5,15 @@ locals {
 module "loadbalancer" {
   source = "./modules/loadbalancer"
 
-  infrastructure_name        = "${var.infrastructure_name}"
-  name                       = "${var.name}"
-  container_definitions_file = "${var.container_definitions_file}"
-  domain_name                = "${var.domain_name}"
-  container_port             = "${var.container_port}"
-  health_check_path          = "${var.health_check_path}"
+  infrastructure_name = "${var.infrastructure_name}"
+  name                = "${var.name}"
+  domain_name         = "${var.domain_name}"
+  container_port      = "${var.container_port}"
+  health_check_path   = "${var.health_check_path}"
 }
 
 data "template_file" "container_definitions" {
-  template = "${file(var.container_definitions_file)}"
+  template = "${var.container_definitions}"
 
   vars {
     awslogs-group         = "${var.infrastructure_name}"
@@ -73,10 +72,4 @@ resource "aws_ecs_service" "antifragile-service" {
     type  = "spread"
     field = "instanceId"
   }
-
-  /*  lifecycle {
-      ignore_changes = [
-        "task_definition",
-      ]
-    }*/
 }

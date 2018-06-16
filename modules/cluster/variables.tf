@@ -4,7 +4,7 @@ variable "name" {}
 
 variable "domain_name" {}
 
-variable "container_definitions_file" {}
+variable "container_definitions" {}
 
 variable "health_check_path" {}
 

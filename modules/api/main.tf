@@ -79,10 +79,17 @@ resource "aws_api_gateway_usage_plan_key" "antifragile-service" {
 
 resource "aws_api_gateway_deployment" "antifragile-service" {
   depends_on = [
-    "aws_api_gateway_usage_plan.antifragile-service",
     "aws_api_gateway_integration.antifragile-service",
   ]
 
   rest_api_id = "${data.aws_api_gateway_rest_api.antifragile-service.id}"
   stage_name  = "${var.api_stage_name}"
+
+  variables = {
+    "deployed_at" = "${timestamp()}"
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
