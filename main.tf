@@ -19,7 +19,6 @@ module "api" {
 
   infrastructure_name             = "${var.infrastructure_name}"
   name                            = "${var.name}"
-  domain_name                     = "${var.domain_name}"
   api_stage_name                  = "${var.api_stage_name}"
   api_quota_limit                 = "${var.api_quota_limit}"
   api_throttle_rate_limit         = "${var.api_throttle_rate_limit}"
