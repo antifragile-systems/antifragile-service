@@ -6,7 +6,6 @@ module "cluster" {
   source = "./modules/cluster"
 
   aws_region            = "${var.aws_region}"
-  domain_name           = "${var.domain_name}"
   container_port        = "${var.container_port}"
   container_definitions = "${var.container_definitions}"
   infrastructure_name   = "${var.infrastructure_name}"

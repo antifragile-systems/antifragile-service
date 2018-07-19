@@ -2,8 +2,6 @@ variable "infrastructure_name" {}
 
 variable "name" {}
 
-variable "domain_name" {}
-
 variable "api_keys" {
   type = "list"
 }
