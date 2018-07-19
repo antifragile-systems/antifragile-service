@@ -35,9 +35,9 @@ resource "aws_api_gateway_integration" "antifragile-service" {
   uri                     = "${var.aws_api_gateway_integration_uri}"
 
   request_parameters {
-    "integration.request.path.proxy"             = "method.request.path.proxy"
-    "integration.request.header.Host"            = "'${var.name}.${var.domain_name}'"
-    "integration.request.header.Accept-Encoding" = "'identity'"
+    "integration.request.path.proxy"              = "method.request.path.proxy"
+    "integration.request.header.X-Forwarded-Host" = "stageVariables.host"
+    "integration.request.header.Accept-Encoding"  = "'identity'"
   }
 }
 

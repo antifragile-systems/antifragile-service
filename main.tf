@@ -28,7 +28,7 @@ module "api" {
   api_throttle_burst_limit        = "${var.api_throttle_burst_limit}"
   api_keys                        = "${var.api_keys}"
   api_quota_period                = "${var.api_quota_period}"
-  aws_api_gateway_integration_uri = "http://${module.cluster.aws_lb_dns_name}/{proxy}"
+  aws_api_gateway_integration_uri = "http://${module.cluster.aws_lb_dns_name}/${var.name}/{proxy}"
 }
 
 module "monitor" {
