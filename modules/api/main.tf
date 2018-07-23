@@ -69,7 +69,7 @@ resource "aws_api_gateway_api_key" "antifragile-service" {
 }
 
 resource "aws_api_gateway_usage_plan_key" "antifragile-service" {
-  count = "${length(aws_api_gateway_api_key.antifragile-service.*.id)}"
+  count = "${length(var.api_keys)}"
 
   usage_plan_id = "${aws_api_gateway_usage_plan.antifragile-service.id}"
 

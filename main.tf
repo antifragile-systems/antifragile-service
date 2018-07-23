@@ -1,7 +1,3 @@
-locals {
-  hostname = "${var.name}.${var.domain_name}"
-}
-
 module "cluster" {
   source = "./modules/cluster"
 
@@ -34,4 +30,6 @@ module "monitor" {
 
   infrastructure_name = "${var.infrastructure_name}"
   name                = "${var.name}"
+  domain_name         = "${var.domain_name}"
+  health_check_path   = "${var.health_check_path}"
 }
