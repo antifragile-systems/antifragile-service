@@ -3,7 +3,7 @@ locals {
 }
 
 module "loadbalancer" {
-  source = "./modules/loadbalancer"
+  source              = "./modules/loadbalancer"
 
   infrastructure_name = "${var.infrastructure_name}"
   name                = "${var.name}"
@@ -22,19 +22,13 @@ data "template_file" "container_definitions" {
   }
 }
 
-resource "aws_iam_role" "antifragile-service" {
-  name               = "${var.infrastructure_name}.ECSServiceRole"
-  assume_role_policy = "${file("${path.module}/ecs-service-role.json")}"
-}
-
-resource "aws_iam_role_policy_attachment" "antifragile-service" {
-  role       = "${aws_iam_role.antifragile-service.name}"
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceRole"
-}
-
 resource "aws_ecs_task_definition" "antifragile-service" {
   family                = "${var.name}"
   container_definitions = "${data.template_file.container_definitions.rendered}"
+}
+
+data "aws_iam_role" "antifragile-service" {
+  name = "${var.infrastructure_name}.ECSServiceRole"
 }
 
 data "aws_ecs_cluster" "antifragile-service" {
@@ -45,7 +39,7 @@ resource "aws_ecs_service" "antifragile-service" {
   name                               = "${var.name}"
   cluster                            = "${data.aws_ecs_cluster.antifragile-service.arn}"
   task_definition                    = "${aws_ecs_task_definition.antifragile-service.arn}"
-  iam_role                           = "${aws_iam_role.antifragile-service.id}"
+  iam_role                           = "${data.aws_iam_role.antifragile-service.id}"
   desired_count                      = 3
   deployment_minimum_healthy_percent = 50
   deployment_maximum_percent         = 200
