@@ -23,14 +23,13 @@ data "template_file" "container_definitions" {
 }
 
 resource "aws_iam_role" "antifragile-service" {
-  name_prefix        = "${var.infrastructure_name}."
+  name               = "${var.infrastructure_name}.ECSServiceRole"
   assume_role_policy = "${file("${path.module}/ecs-service-role.json")}"
 }
 
-resource "aws_iam_role_policy" "antifragile-service" {
-  name_prefix = "${var.infrastructure_name}."
-  policy      = "${file("${path.module}/ecs-service-role-policy.json")}"
-  role        = "${aws_iam_role.antifragile-service.id}"
+resource "aws_iam_role_policy_attachment" "antifragile-service" {
+  role       = "${aws_iam_role.antifragile-service.name}"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceRole"
 }
 
 resource "aws_ecs_task_definition" "antifragile-service" {
@@ -51,10 +50,6 @@ resource "aws_ecs_service" "antifragile-service" {
   deployment_minimum_healthy_percent = 50
   deployment_maximum_percent         = 200
   health_check_grace_period_seconds  = 30
-
-  depends_on = [
-    "aws_iam_role_policy.antifragile-service",
-  ]
 
   load_balancer {
     target_group_arn = "${module.loadbalancer.aws_alb_target_group_arn}"
