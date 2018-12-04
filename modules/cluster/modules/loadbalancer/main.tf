@@ -10,6 +10,7 @@ resource "aws_alb_target_group" "antifragile-service" {
   protocol             = "HTTP"
   vpc_id               = "${data.aws_vpc.antifragile-service.id}"
   deregistration_delay = 30
+  target_type          = "ip"
 
   health_check {
     healthy_threshold   = 2
@@ -39,10 +40,14 @@ resource "aws_alb_listener_rule" "antifragile-service" {
   }
 
   condition {
-    field = "path-pattern"
+    field  = "path-pattern"
 
     values = [
       "/${var.name}/*",
     ]
   }
+}
+
+data "aws_security_group" "antifragile-service" {
+  name = "${var.infrastructure_name}.loadbalancer"
 }

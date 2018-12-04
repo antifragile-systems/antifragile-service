@@ -1,17 +1,27 @@
+provider "aws" {
+  region  = "${var.aws_region}"
+  version = "1.50"
+}
+
+provider "template" {
+  version = "1.0.0"
+}
+
 module "cluster" {
-  source = "./modules/cluster"
+  source                = "./modules/cluster"
 
   aws_region            = "${var.aws_region}"
   container_port        = "${var.container_port}"
   container_definitions = "${var.container_definitions}"
   infrastructure_name   = "${var.infrastructure_name}"
   name                  = "${var.name}"
+  domain_name           = "${var.domain_name}"
   health_check_path     = "${var.health_check_path}"
   api_keys              = "${var.api_keys}"
 }
 
 module "api" {
-  source = "./modules/api"
+  source                          = "./modules/api"
 
   infrastructure_name             = "${var.infrastructure_name}"
   name                            = "${var.name}"
@@ -26,7 +36,7 @@ module "api" {
 }
 
 module "monitor" {
-  source = "./modules/monitor"
+  source              = "./modules/monitor"
 
   infrastructure_name = "${var.infrastructure_name}"
   name                = "${var.name}"
