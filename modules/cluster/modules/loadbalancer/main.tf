@@ -10,7 +10,7 @@ resource "aws_alb_target_group" "antifragile-service" {
   protocol             = "HTTP"
   vpc_id               = "${data.aws_vpc.antifragile-service.id}"
   deregistration_delay = 30
-  target_type          = "ip"
+  target_type          = "instance"
 
   health_check {
     healthy_threshold   = 2

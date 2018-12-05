@@ -9,35 +9,6 @@ module "tasks" {
   aws_region            = "${var.aws_region}"
 }
 
-data "aws_vpc" "antifragile-service" {
-  tags {
-    Name = "${var.infrastructure_name}"
-  }
-}
-
-data "aws_subnet_ids" "antifragile-service" {
-  vpc_id = "${data.aws_vpc.antifragile-service.id}"
-}
-
-resource "aws_security_group" "antifragile-service" {
-  name        = "${var.infrastructure_name}.${var.name}"
-  description = "${var.name} security group"
-  vpc_id      = "${data.aws_vpc.antifragile-service.id}"
-
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
-resource "aws_security_group_rule" "antifragile-service" {
-  type                     = "ingress"
-  from_port                = "${var.container_port}"
-  to_port                  = "${var.container_port}"
-  protocol                 = "tcp"
-  source_security_group_id = "${var.aws_alb_security_group_id}"
-  security_group_id        = "${aws_security_group.antifragile-service.id}"
-}
-
 resource "aws_ecs_service" "antifragile-service" {
   name                               = "${var.name}"
   cluster                            = "${var.aws_ecs_cluster_arn}"
@@ -61,12 +32,5 @@ resource "aws_ecs_service" "antifragile-service" {
   ordered_placement_strategy {
     type  = "spread"
     field = "instanceId"
-  }
-
-  network_configuration {
-    subnets         = [
-      "${data.aws_subnet_ids.antifragile-service.ids}" ]
-    security_groups = [
-      "${aws_security_group.antifragile-service.id}" ]
   }
 }
