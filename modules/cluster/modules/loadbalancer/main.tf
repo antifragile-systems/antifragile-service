@@ -47,7 +47,3 @@ resource "aws_alb_listener_rule" "antifragile-service" {
     ]
   }
 }
-
-data "aws_security_group" "antifragile-service" {
-  name = "${var.infrastructure_name}.loadbalancer"
-}

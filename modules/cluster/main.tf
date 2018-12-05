@@ -22,5 +22,4 @@ module "services" {
   aws_region                = "${var.aws_region}"
   aws_ecs_cluster_arn        = "${data.aws_ecs_cluster.antifragile-service.arn}"
   aws_alb_target_group_arn  = "${module.loadbalancer.aws_alb_target_group_arn}"
-  aws_alb_security_group_id = "${module.loadbalancer.aws_alb_security_group_id}"
 }
