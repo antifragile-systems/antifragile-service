@@ -5,7 +5,7 @@ data "aws_vpc" "antifragile-service" {
 }
 
 resource "aws_alb_target_group" "antifragile-service" {
-  name                 = "${var.name}"
+  name                 = "${replace(var.name, ".", "-")}"
   port                 = "${var.container_port}"
   protocol             = "HTTP"
   vpc_id               = "${data.aws_vpc.antifragile-service.id}"
