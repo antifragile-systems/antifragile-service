@@ -8,7 +8,7 @@ provider "template" {
 }
 
 module "cluster" {
-  source                = "./modules/cluster"
+  source = "./modules/cluster"
 
   aws_region            = "${var.aws_region}"
   container_port        = "${var.container_port}"
@@ -21,7 +21,9 @@ module "cluster" {
 }
 
 module "api" {
-  source                          = "./modules/api"
+  source = "./modules/api"
+
+  enabled = "${var.api_enabled}"
 
   infrastructure_name             = "${var.infrastructure_name}"
   name                            = "${var.name}"
@@ -36,7 +38,7 @@ module "api" {
 }
 
 module "monitor" {
-  source              = "./modules/monitor"
+  source = "./modules/monitor"
 
   infrastructure_name = "${var.infrastructure_name}"
   name                = "${var.name}"

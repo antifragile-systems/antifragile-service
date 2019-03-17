@@ -16,6 +16,10 @@ variable "container_port" {
   default = 3000
 }
 
+variable "api_enabled" {
+  default = 0
+}
+
 variable "api_keys" {
   type    = "list"
   default = []

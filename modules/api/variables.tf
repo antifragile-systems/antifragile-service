@@ -2,6 +2,10 @@ variable "infrastructure_name" {}
 
 variable "name" {}
 
+variable "enabled" {
+  default = 0
+}
+
 variable "api_keys" {
   type = "list"
 }

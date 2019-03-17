@@ -1,20 +1,28 @@
 data "aws_api_gateway_rest_api" "antifragile-service" {
+  count = "${var.enabled}"
+
   name = "${var.infrastructure_name}"
 }
 
 resource "aws_api_gateway_resource" "antifragile-service-1" {
+  count = "${var.enabled}"
+
   rest_api_id = "${data.aws_api_gateway_rest_api.antifragile-service.id}"
   parent_id   = "${data.aws_api_gateway_rest_api.antifragile-service.root_resource_id}"
   path_part   = "${var.name}"
 }
 
 resource "aws_api_gateway_resource" "antifragile-service-2" {
+  count = "${var.enabled}"
+
   rest_api_id = "${data.aws_api_gateway_rest_api.antifragile-service.id}"
   parent_id   = "${aws_api_gateway_resource.antifragile-service-1.id}"
   path_part   = "{proxy+}"
 }
 
 resource "aws_api_gateway_method" "antifragile-service" {
+  count = "${var.enabled}"
+
   rest_api_id      = "${data.aws_api_gateway_rest_api.antifragile-service.id}"
   resource_id      = "${aws_api_gateway_resource.antifragile-service-2.id}"
   http_method      = "ANY"
@@ -27,6 +35,8 @@ resource "aws_api_gateway_method" "antifragile-service" {
 }
 
 resource "aws_api_gateway_integration" "antifragile-service" {
+  count = "${var.enabled}"
+
   rest_api_id             = "${data.aws_api_gateway_rest_api.antifragile-service.id}"
   resource_id             = "${aws_api_gateway_resource.antifragile-service-2.id}"
   http_method             = "${aws_api_gateway_method.antifragile-service.http_method}"
@@ -42,6 +52,8 @@ resource "aws_api_gateway_integration" "antifragile-service" {
 }
 
 resource "aws_api_gateway_usage_plan" "antifragile-service" {
+  count = "${var.enabled}"
+
   name = "${var.name}"
 
   api_stages {
@@ -62,14 +74,14 @@ resource "aws_api_gateway_usage_plan" "antifragile-service" {
 }
 
 resource "aws_api_gateway_api_key" "antifragile-service" {
-  count = "${length(var.api_keys)}"
+  count = "${var.enabled * length(var.api_keys)}"
 
   name  = "${var.name}.${count.index}"
   value = "${element(var.api_keys, count.index)}"
 }
 
 resource "aws_api_gateway_usage_plan_key" "antifragile-service" {
-  count = "${length(var.api_keys)}"
+  count = "${var.enabled * length(var.api_keys)}"
 
   usage_plan_id = "${aws_api_gateway_usage_plan.antifragile-service.id}"
 
@@ -78,6 +90,8 @@ resource "aws_api_gateway_usage_plan_key" "antifragile-service" {
 }
 
 resource "aws_api_gateway_deployment" "antifragile-service" {
+  count = "${var.enabled}"
+
   depends_on = [
     "aws_api_gateway_integration.antifragile-service",
   ]
