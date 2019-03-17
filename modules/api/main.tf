@@ -107,3 +107,41 @@ resource "aws_api_gateway_deployment" "antifragile-service" {
     create_before_destroy = true
   }
 }
+
+data "aws_alb_target_group" "selected" {
+  count = "${var.enabled}"
+
+  name = "${var.name}"
+}
+
+data "aws_lb" "selected" {
+  count = "${var.enabled}"
+
+  name = "${var.infrastructure_name}"
+}
+
+data "aws_lb_listener" "selected" {
+  count = "${var.enabled}"
+
+  load_balancer_arn = "${data.aws_lb.selected.arn}"
+  port              = 80
+}
+
+resource "aws_alb_listener_rule" "antifragile-service" {
+  count = "${var.enabled}"
+
+  listener_arn = "${data.aws_lb_listener.selected.arn}"
+
+  action {
+    type             = "forward"
+    target_group_arn = "${data.aws_alb_target_group.selected.arn}"
+  }
+
+  condition {
+    field = "path-pattern"
+
+    values = [
+      "/${var.name}/*",
+    ]
+  }
+}

@@ -29,25 +29,3 @@ resource "aws_alb_target_group" "antifragile-service" {
 data "aws_lb" "selected" {
   name = "${var.infrastructure_name}"
 }
-
-data "aws_lb_listener" "selected" {
-  load_balancer_arn = "${data.aws_lb.selected.arn}"
-  port              = 80
-}
-
-resource "aws_alb_listener_rule" "antifragile-service" {
-  listener_arn = "${data.aws_lb_listener.selected.arn}"
-
-  action {
-    type             = "forward"
-    target_group_arn = "${aws_alb_target_group.antifragile-service.arn}"
-  }
-
-  condition {
-    field = "path-pattern"
-
-    values = [
-      "/${var.name}/*",
-    ]
-  }
-}

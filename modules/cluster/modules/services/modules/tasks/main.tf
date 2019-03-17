@@ -17,4 +17,9 @@ resource "aws_ecs_task_definition" "antifragile-service" {
   family                = "${var.name}"
   container_definitions = "${data.template_file.container_definitions.rendered}"
   network_mode          = "bridge"
+
+  volume {
+    name      = "${var.name}"
+    host_path = "/mnt/efs/${var.name}"
+  }
 }

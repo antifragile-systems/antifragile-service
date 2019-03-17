@@ -53,6 +53,15 @@ variable "api_stage_name" {
   default = "production"
 }
 
+variable "cdn_enabled" {
+  default = 0
+}
+
+variable "cdn_cnames" {
+  type    = "list"
+  default = [ ]
+}
+
 variable "aws_region" {
   default = "eu-west-1"
 }

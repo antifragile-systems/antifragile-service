@@ -38,6 +38,16 @@ module "api" {
   aws_api_gateway_integration_uri = "http://${module.cluster.aws_lb_dns_name}/${var.name}/{proxy}"
 }
 
+module "cdn" {
+  source = "./modules/cdn"
+
+  enabled = "${var.cdn_enabled}"
+
+  infrastructure_name = "${var.infrastructure_name}"
+  name                = "${var.name}"
+  cnames              = "${var.cdn_cnames}"
+}
+
 module "monitor" {
   source = "./modules/monitor"
 
