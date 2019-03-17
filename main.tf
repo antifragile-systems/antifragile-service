@@ -15,7 +15,6 @@ module "cluster" {
   container_definitions            = "${var.container_definitions}"
   infrastructure_name              = "${var.infrastructure_name}"
   name                             = "${var.name}"
-  domain_name                      = "${var.domain_name}"
   health_check_path                = "${var.health_check_path}"
   health_check_path_preappend_name = "${var.health_check_path_preappend_name}"
   api_keys                         = "${var.api_keys}"
@@ -53,6 +52,4 @@ module "monitor" {
 
   infrastructure_name = "${var.infrastructure_name}"
   name                = "${var.name}"
-  domain_name         = "${var.domain_name}"
-  health_check_path   = "${var.health_check_path}"
 }
