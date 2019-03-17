@@ -1,3 +1,7 @@
+locals {
+  health_check_path = "${var.health_check_path_preappend_name ? format("/%s%s", var.name, var.health_check_path) : var.health_check_path}"
+}
+
 data "aws_vpc" "antifragile-service" {
   tags {
     Name = "${var.infrastructure_name}"
@@ -17,7 +21,7 @@ resource "aws_alb_target_group" "antifragile-service" {
     unhealthy_threshold = 2
     timeout             = 4
     port                = "traffic-port"
-    path                = "/${var.name}${var.health_check_path}"
+    path                = "${local.health_check_path}"
     interval            = 5
   }
 }
@@ -40,7 +44,7 @@ resource "aws_alb_listener_rule" "antifragile-service" {
   }
 
   condition {
-    field  = "path-pattern"
+    field = "path-pattern"
 
     values = [
       "/${var.name}/*",

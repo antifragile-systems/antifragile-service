@@ -12,6 +12,10 @@ variable "health_check_path" {
   default = "/ping"
 }
 
+variable "health_check_path_preappend_name" {
+  default = true
+}
+
 variable "container_port" {
   default = 3000
 }
