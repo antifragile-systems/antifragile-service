@@ -60,6 +60,10 @@ variable "cdn_cnames" {
   default = [ ]
 }
 
+variable "cdn_redirect_cname" {
+  default = ""
+}
+
 variable "aws_region" {
   default = "eu-west-1"
 }

@@ -10,3 +10,7 @@ variable "cnames" {
   type    = "list"
   default = [ ]
 }
+
+variable "redirect_cname" {
+  default = ""
+}

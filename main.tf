@@ -45,6 +45,7 @@ module "cdn" {
   infrastructure_name = "${var.infrastructure_name}"
   name                = "${var.name}"
   cnames              = "${var.cdn_cnames}"
+  redirect_cname      = "${var.cdn_redirect_cname}"
 }
 
 module "monitor" {
