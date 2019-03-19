@@ -128,8 +128,6 @@ resource "aws_alb_listener_rule" "antifragile-service-1" {
 module "certificate" {
   source = "../certificate"
 
-  count = "${(var.enabled && length(var.cnames) > 0) ? 1 : 0 }"
-
   domain_name               = "${var.cnames[0]}"
   subject_alternative_names = [
     "${var.redirect_cname}" ]
