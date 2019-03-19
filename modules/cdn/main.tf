@@ -114,8 +114,6 @@ resource "aws_alb_listener_rule" "antifragile-service-1" {
 
     redirect {
       host        = "${element(var.cnames, 0)}"
-      protocol    = "HTTPS"
-      port        = 443
       status_code = "HTTP_301"
     }
   }
