@@ -125,10 +125,19 @@ resource "aws_alb_listener_rule" "antifragile-service-1" {
   }
 }
 
+locals {
+  cnames                  = [
+    "${var.cnames}",
+    "" ]
+  certificate_domain_name = "${length(compact(local.cnames)) > 0 ? element(local.cnames, 0) : ""}"
+}
+
 module "certificate" {
   source = "../certificate"
 
-  domain_name               = "${var.cnames[0]}"
+  enabled = "${var.enabled}"
+
+  domain_name               = "${local.certificate_domain_name}"
   subject_alternative_names = [
     "${var.redirect_cname}" ]
   aws_region                = "us-east-1"
