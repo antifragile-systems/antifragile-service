@@ -67,3 +67,7 @@ variable "cdn_redirect_cname" {
 variable "aws_region" {
   default = "eu-west-1"
 }
+
+variable "task_desired_count" {
+  default = 3
+}

@@ -15,3 +15,7 @@ variable "aws_region" {}
 variable "aws_ecs_cluster_arn" {}
 
 variable "aws_alb_target_group_arn" {}
+
+variable "aws_ecs_service_task_desired_count" {
+  default = 3
+}
