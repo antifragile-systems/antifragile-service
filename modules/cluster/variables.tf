@@ -18,6 +18,6 @@ variable "api_keys" {
 
 variable "aws_region" {}
 
-variable "aws_ecs_service_task_desired_count" {
+variable "task_desired_count" {
   default = 3
 }

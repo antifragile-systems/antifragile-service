@@ -23,5 +23,5 @@ module "services" {
   aws_region                         = "${var.aws_region}"
   aws_ecs_cluster_arn                = "${data.aws_ecs_cluster.antifragile-service.arn}"
   aws_alb_target_group_arn           = "${module.loadbalancer.aws_alb_target_group_arn}"
-  aws_ecs_service_task_desired_count = "${var.aws_ecs_service_task_desired_count}"
+  aws_ecs_service_task_desired_count = "${var.task_desired_count}"
 }
