@@ -15,13 +15,13 @@ data "aws_ecs_cluster" "antifragile-service" {
 module "services" {
   source = "./modules/services"
 
-  infrastructure_name                = "${var.infrastructure_name}"
-  name                               = "${var.name}"
-  container_port                     = "${var.container_port}"
-  container_definitions              = "${var.container_definitions}"
-  api_keys                           = "${var.api_keys}"
-  aws_region                         = "${var.aws_region}"
-  aws_ecs_cluster_arn                = "${data.aws_ecs_cluster.antifragile-service.arn}"
-  aws_alb_target_group_arn           = "${module.loadbalancer.aws_alb_target_group_arn}"
-  aws_ecs_service_task_desired_count = "${var.task_desired_count}"
+  infrastructure_name           = "${var.infrastructure_name}"
+  name                          = "${var.name}"
+  container_port                = "${var.container_port}"
+  container_definitions         = "${var.container_definitions}"
+  api_keys                      = "${var.api_keys}"
+  aws_region                    = "${var.aws_region}"
+  aws_ecs_cluster_arn           = "${data.aws_ecs_cluster.antifragile-service.arn}"
+  aws_alb_target_group_arn      = "${module.loadbalancer.aws_alb_target_group_arn}"
+  aws_ecs_service_desired_count = "${var.service_desired_count}"
 }

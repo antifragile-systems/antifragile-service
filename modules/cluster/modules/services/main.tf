@@ -13,7 +13,7 @@ resource "aws_ecs_service" "antifragile-service" {
   name                               = "${var.name}"
   cluster                            = "${var.aws_ecs_cluster_arn}"
   task_definition                    = "${module.tasks.aws_ecs_task_definition_arn}"
-  desired_count                      = "${var.aws_ecs_service_task_desired_count}"
+  desired_count                      = "${var.aws_ecs_service_desired_count}"
   deployment_minimum_healthy_percent = 50
   deployment_maximum_percent         = 200
   health_check_grace_period_seconds  = 30

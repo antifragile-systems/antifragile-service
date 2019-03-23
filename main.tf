@@ -11,7 +11,7 @@ module "cluster" {
   source = "./modules/cluster"
 
   aws_region                       = "${var.aws_region}"
-  task_desired_count               = "${var.task_desired_count}"
+  service_desired_count            = "${var.service_desired_count}"
   container_port                   = "${var.container_port}"
   container_definitions            = "${var.container_definitions}"
   infrastructure_name              = "${var.infrastructure_name}"
