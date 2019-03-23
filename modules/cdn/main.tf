@@ -146,7 +146,6 @@ module "certificate" {
   domain_name               = "${local.certificate_domain_name}"
   subject_alternative_names = [
     "${var.redirect_cname}" ]
-  aws_region                = "us-east-1"
 }
 
 resource "aws_route53_health_check" "antifragile-service" {

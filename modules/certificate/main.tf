@@ -1,8 +1,6 @@
-provider "aws" {
-  region = "${var.aws_region}"
-}
-
 resource "aws_acm_certificate" "antifragile-service" {
+  provider = "aws.global"
+
   count = "${var.enabled}"
 
   domain_name               = "${var.domain_name}"
