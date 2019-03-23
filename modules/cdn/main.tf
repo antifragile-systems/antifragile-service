@@ -28,6 +28,8 @@ resource "aws_cloudfront_distribution" "antifragile-service" {
     "${var.cnames}",
     "${var.redirect_cname}" ]
 
+  is_ipv6_enabled = true
+
   default_cache_behavior {
     allowed_methods  = [
       "GET",
@@ -45,7 +47,10 @@ resource "aws_cloudfront_distribution" "antifragile-service" {
     forwarded_values {
       query_string = true
       headers      = [
-        "*" ]
+        "Authorization",
+        "CloudFront-Forwarded-Proto",
+        "Host"
+      ]
 
       cookies {
         forward = "all"
@@ -67,8 +72,9 @@ resource "aws_cloudfront_distribution" "antifragile-service" {
   }
 
   viewer_certificate {
-    acm_certificate_arn = "${module.certificate.aws_acm_certificate_arn}"
-    ssl_support_method  = "sni-only"
+    acm_certificate_arn      = "${module.certificate.aws_acm_certificate_arn}"
+    ssl_support_method       = "sni-only"
+    minimum_protocol_version = "TLSv1.1_2016"
   }
 }
 
