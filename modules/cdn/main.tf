@@ -148,3 +148,32 @@ module "certificate" {
     "${var.redirect_cname}" ]
   aws_region                = "us-east-1"
 }
+
+resource "aws_route53_health_check" "antifragile-service" {
+  fqdn              = "${local.certificate_domain_name}"
+  port              = 443
+  type              = "HTTPS"
+  request_interval  = 30
+  failure_threshold = 3
+}
+
+resource "aws_cloudwatch_metric_alarm" "antifragile-service" {
+  provider = "aws.global"
+
+  alarm_name = "${local.certificate_domain_name} availability"
+
+  metric_name = "HealthCheckStatus"
+  namespace   = "AWS/Route53"
+
+  dimensions {
+    HealthCheckId = "${aws_route53_health_check.antifragile-service.id}"
+  }
+
+  threshold           = "1"
+  comparison_operator = "LessThanThreshold"
+  evaluation_periods  = "1"
+  period              = "60"
+  statistic           = "Minimum"
+
+  treat_missing_data = "breaching"
+}
