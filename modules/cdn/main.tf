@@ -49,7 +49,9 @@ resource "aws_cloudfront_distribution" "antifragile-service" {
       headers      = [
         "Authorization",
         "CloudFront-Forwarded-Proto",
-        "Host"
+        "Host",
+        "Origin",
+        "Referer"
       ]
 
       cookies {
