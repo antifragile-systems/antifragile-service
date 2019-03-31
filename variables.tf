@@ -55,13 +55,21 @@ variable "cdn_enabled" {
   default = 0
 }
 
-variable "cdn_cnames" {
+variable "cdn_certificate_validation_enabled" {
+  default = 1
+}
+
+variable "cdn_hostname" {
+}
+
+variable "cdn_hostname_aliases" {
   type    = "list"
   default = [ ]
 }
 
-variable "cdn_redirect_cname" {
-  default = ""
+variable "cdn_hostname_redirects" {
+  type    = "list"
+  default = [ ]
 }
 
 variable "aws_region" {

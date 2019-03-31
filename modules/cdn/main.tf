@@ -1,3 +1,8 @@
+locals {
+  hostname_domain_levels = "${length(split(".", var.hostname))}"
+  hostname_domain_name   = "${local.hostname_domain_levels > 1 ? join(".", slice(split(".", var.hostname), local.hostname_domain_levels - 2, local.hostname_domain_levels)) : var.hostname}"
+}
+
 data "aws_lb" "selected" {
   count = "${var.enabled}"
 
@@ -24,9 +29,7 @@ resource "aws_cloudfront_distribution" "antifragile-service" {
     }
   }
 
-  aliases = [
-    "${var.cnames}",
-    "${var.redirect_cname}" ]
+  aliases = "${concat(list(var.hostname), var.hostname_aliases, var.hostname_redirects)}"
 
   is_ipv6_enabled = true
 
@@ -88,7 +91,7 @@ data "aws_lb_listener" "selected" {
 }
 
 resource "aws_alb_listener_rule" "antifragile-service" {
-  count = "${var.enabled * length(var.cnames)}"
+  count = "${var.enabled * length(concat(list(var.hostname), var.hostname_aliases))}"
 
   listener_arn = "${data.aws_lb_listener.selected.arn}"
 
@@ -101,13 +104,13 @@ resource "aws_alb_listener_rule" "antifragile-service" {
     field = "host-header"
 
     values = [
-      "${element(var.cnames, count.index)}"
+      "${element(concat(list(var.hostname), var.hostname_aliases), count.index)}"
     ]
   }
 }
 
 resource "aws_alb_listener_rule" "antifragile-service-1" {
-  count = "${(var.enabled && var.redirect_cname != "" && length(var.cnames) > 0) ? 1 : 0 }"
+  count = "${var.enabled * length(var.hostname_redirects)}"
 
   listener_arn = "${data.aws_lb_listener.selected.arn}"
 
@@ -115,7 +118,7 @@ resource "aws_alb_listener_rule" "antifragile-service-1" {
     type = "redirect"
 
     redirect {
-      host        = "${element(var.cnames, 0)}"
+      host        = "${var.hostname}"
       status_code = "HTTP_301"
     }
   }
@@ -123,15 +126,8 @@ resource "aws_alb_listener_rule" "antifragile-service-1" {
   condition {
     field  = "host-header"
     values = [
-      "${var.redirect_cname}" ]
+      "${element(var.hostname_redirects, count.index)}" ]
   }
-}
-
-locals {
-  cnames                  = [
-    "${var.cnames}",
-    "" ]
-  certificate_domain_name = "${length(compact(local.cnames)) > 0 ? element(local.cnames, 0) : ""}"
 }
 
 module "certificate" {
@@ -139,13 +135,14 @@ module "certificate" {
 
   enabled = "${var.enabled}"
 
-  domain_name               = "${local.certificate_domain_name}"
-  subject_alternative_names = [
-    "${var.redirect_cname}" ]
+  validation_enabled = "${var.certificate_validation_enabled}"
+
+  domain_name               = "${var.hostname}"
+  subject_alternative_names = "${concat(var.hostname_aliases, var.hostname_redirects)}"
 }
 
 resource "aws_route53_health_check" "antifragile-service" {
-  fqdn              = "${local.certificate_domain_name}"
+  fqdn              = "${var.hostname}"
   port              = 443
   type              = "HTTPS"
   request_interval  = 30
@@ -155,7 +152,7 @@ resource "aws_route53_health_check" "antifragile-service" {
 resource "aws_cloudwatch_metric_alarm" "antifragile-service" {
   provider = "aws.global"
 
-  alarm_name = "${local.certificate_domain_name} availability"
+  alarm_name = "${var.hostname} availability"
 
   metric_name = "HealthCheckStatus"
   namespace   = "AWS/Route53"
@@ -171,4 +168,26 @@ resource "aws_cloudwatch_metric_alarm" "antifragile-service" {
   statistic           = "Minimum"
 
   treat_missing_data = "breaching"
+}
+
+data "aws_route53_zone" "selected" {
+  count = "${var.enabled}"
+
+  name         = "${local.hostname_domain_name}."
+  private_zone = false
+}
+
+resource "aws_route53_record" "antifragile-infrastructure" {
+  count = "${var.enabled}"
+
+  zone_id = "${data.aws_route53_zone.selected.zone_id}"
+  name    = "${var.hostname}"
+  type    = "A"
+
+  alias {
+    name    = "${aws_cloudfront_distribution.antifragile-service.domain_name}",
+    zone_id = "${aws_cloudfront_distribution.antifragile-service.hosted_zone_id}"
+
+    evaluate_target_health = false
+  }
 }

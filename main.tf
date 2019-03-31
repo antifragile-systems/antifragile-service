@@ -48,10 +48,13 @@ module "cdn" {
 
   enabled = "${var.cdn_enabled}"
 
+  certificate_validation_enabled = "${var.cdn_certificate_validation_enabled}"
+
   infrastructure_name      = "${var.infrastructure_name}"
   name                     = "${var.name}"
-  cnames                   = "${var.cdn_cnames}"
-  redirect_cname           = "${var.cdn_redirect_cname}"
+  hostname                 = "${var.cdn_hostname}"
+  hostname_aliases         = "${var.cdn_hostname_aliases}"
+  hostname_redirects       = "${var.cdn_hostname_redirects}"
   aws_alb_target_group_arn = "${module.cluster.aws_alb_target_group_arn}"
 }
 

@@ -6,13 +6,21 @@ variable "enabled" {
   default = 0
 }
 
-variable "cnames" {
+variable "certificate_validation_enabled" {
+  default = 1
+}
+
+variable "hostname" {
+}
+
+variable "hostname_aliases" {
   type    = "list"
   default = [ ]
 }
 
-variable "redirect_cname" {
-  default = ""
+variable "hostname_redirects" {
+  type    = "list"
+  default = [ ]
 }
 
 variable "aws_alb_target_group_arn" {
