@@ -48,10 +48,11 @@ module "cdn" {
 
   enabled = "${var.cdn_enabled}"
 
-  infrastructure_name = "${var.infrastructure_name}"
-  name                = "${var.name}"
-  cnames              = "${var.cdn_cnames}"
-  redirect_cname      = "${var.cdn_redirect_cname}"
+  infrastructure_name      = "${var.infrastructure_name}"
+  name                     = "${var.name}"
+  cnames                   = "${var.cdn_cnames}"
+  redirect_cname           = "${var.cdn_redirect_cname}"
+  aws_alb_target_group_arn = "${module.cluster.aws_alb_target_group_arn}"
 }
 
 module "monitor" {

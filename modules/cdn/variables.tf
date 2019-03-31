@@ -14,3 +14,6 @@ variable "cnames" {
 variable "redirect_cname" {
   default = ""
 }
+
+variable "aws_alb_target_group_arn" {
+}

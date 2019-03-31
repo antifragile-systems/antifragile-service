@@ -80,12 +80,6 @@ resource "aws_cloudfront_distribution" "antifragile-service" {
   }
 }
 
-data "aws_alb_target_group" "selected" {
-  count = "${var.enabled}"
-
-  name = "${var.name}"
-}
-
 data "aws_lb_listener" "selected" {
   count = "${var.enabled}"
 
@@ -100,7 +94,7 @@ resource "aws_alb_listener_rule" "antifragile-service" {
 
   action {
     type             = "forward"
-    target_group_arn = "${data.aws_alb_target_group.selected.arn}"
+    target_group_arn = "${var.aws_alb_target_group_arn}"
   }
 
   condition {
