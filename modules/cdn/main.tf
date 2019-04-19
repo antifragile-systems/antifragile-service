@@ -149,6 +149,12 @@ resource "aws_route53_health_check" "antifragile-service" {
   failure_threshold = 3
 }
 
+data "aws_sns_topic" "selected" {
+  provider = "aws.global"
+
+  name = "${var.infrastructure_name}"
+}
+
 resource "aws_cloudwatch_metric_alarm" "antifragile-service" {
   provider = "aws.global"
 
@@ -168,6 +174,11 @@ resource "aws_cloudwatch_metric_alarm" "antifragile-service" {
   statistic           = "Minimum"
 
   treat_missing_data = "breaching"
+
+  alarm_actions = [
+    "${data.aws_sns_topic.selected.arn}" ]
+  ok_actions    = [
+    "${data.aws_sns_topic.selected.arn}" ]
 }
 
 data "aws_route53_zone" "selected" {
