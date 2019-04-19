@@ -9,3 +9,7 @@ variable "health_check_path_preappend_name" {
 }
 
 variable "container_port" {}
+
+variable "session_stickiness_enabled" {
+  default = false
+}

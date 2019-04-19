@@ -79,3 +79,7 @@ variable "aws_region" {
 variable "service_desired_count" {
   default = 3
 }
+
+variable "loadbalancer_session_stickiness_enabled" {
+  default = false
+}

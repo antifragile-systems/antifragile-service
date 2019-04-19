@@ -15,15 +15,16 @@ provider "template" {
 module "cluster" {
   source = "./modules/cluster"
 
-  aws_region                       = "${var.aws_region}"
-  service_desired_count            = "${var.service_desired_count}"
-  container_port                   = "${var.container_port}"
-  container_definitions            = "${var.container_definitions}"
-  infrastructure_name              = "${var.infrastructure_name}"
-  name                             = "${var.name}"
-  health_check_path                = "${var.health_check_path}"
-  health_check_path_preappend_name = "${var.health_check_path_preappend_name}"
-  api_keys                         = "${var.api_keys}"
+  aws_region                              = "${var.aws_region}"
+  service_desired_count                   = "${var.service_desired_count}"
+  container_port                          = "${var.container_port}"
+  container_definitions                   = "${var.container_definitions}"
+  infrastructure_name                     = "${var.infrastructure_name}"
+  name                                    = "${var.name}"
+  health_check_path                       = "${var.health_check_path}"
+  health_check_path_preappend_name        = "${var.health_check_path_preappend_name}"
+  api_keys                                = "${var.api_keys}"
+  loadbalancer_session_stickiness_enabled = "${var.loadbalancer_session_stickiness_enabled}"
 }
 
 module "api" {

@@ -16,6 +16,11 @@ resource "aws_alb_target_group" "antifragile-service" {
   deregistration_delay = 30
   target_type          = "instance"
 
+  stickiness {
+    type    = "lb_cookie"
+    enabled = "${var.session_stickiness_enabled}"
+  }
+
   health_check {
     healthy_threshold   = 2
     unhealthy_threshold = 2
