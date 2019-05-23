@@ -24,7 +24,7 @@ variable "api_enabled" {
 
 variable "api_keys" {
   type    = "list"
-  default = []
+  default = [ ]
 }
 
 variable "api_quota_limit" {
@@ -70,6 +70,10 @@ variable "cdn_hostname_aliases" {
 variable "cdn_hostname_redirects" {
   type    = "list"
   default = [ ]
+}
+
+variable "cdn_health_check_request_interval" {
+  default = 30
 }
 
 variable "aws_region" {

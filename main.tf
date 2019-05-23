@@ -51,12 +51,13 @@ module "cdn" {
 
   certificate_validation_enabled = "${var.cdn_certificate_validation_enabled}"
 
-  infrastructure_name      = "${var.infrastructure_name}"
-  name                     = "${var.name}"
-  hostname                 = "${var.cdn_hostname}"
-  hostname_aliases         = "${var.cdn_hostname_aliases}"
-  hostname_redirects       = "${var.cdn_hostname_redirects}"
-  aws_alb_target_group_arn = "${module.cluster.aws_alb_target_group_arn}"
+  infrastructure_name                       = "${var.infrastructure_name}"
+  name                                      = "${var.name}"
+  hostname                                  = "${var.cdn_hostname}"
+  hostname_aliases                          = "${var.cdn_hostname_aliases}"
+  hostname_redirects                        = "${var.cdn_hostname_redirects}"
+  aws_alb_target_group_arn                  = "${module.cluster.aws_alb_target_group_arn}"
+  aws_route53_health_check_request_interval = "${var.cdn_health_check_request_interval}"
 }
 
 module "monitor" {

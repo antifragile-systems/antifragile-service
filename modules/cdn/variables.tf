@@ -25,3 +25,7 @@ variable "hostname_redirects" {
 
 variable "aws_alb_target_group_arn" {
 }
+
+variable "aws_route53_health_check_request_interval" {
+  default = 30
+}

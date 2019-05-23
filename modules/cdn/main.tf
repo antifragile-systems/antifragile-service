@@ -145,7 +145,7 @@ resource "aws_route53_health_check" "antifragile-service" {
   fqdn              = "${var.hostname}"
   port              = 443
   type              = "HTTPS"
-  request_interval  = 30
+  request_interval  = "${var.aws_route53_health_check_request_interval}"
   failure_threshold = 3
 }
 
