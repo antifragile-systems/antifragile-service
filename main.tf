@@ -1,9 +1,12 @@
 provider "aws" {
+  version = "1.60.0"
+
   region  = "${var.aws_region}"
-  version = "1.60"
 }
 
 provider "aws" {
+  version = "1.60.0"
+
   alias  = "global"
   region = "us-east-1"
 }
