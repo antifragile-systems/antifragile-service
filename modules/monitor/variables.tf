@@ -1,3 +1,6 @@
-variable "infrastructure_name" {}
+variable "infrastructure_name" {
+}
 
-variable "name" {}
+variable "name" {
+}
+

@@ -2,9 +2,11 @@ variable "infrastructure_name" {
   default = "antifragile-infrastructure"
 }
 
-variable "name" {}
+variable "name" {
+}
 
-variable "container_definitions" {}
+variable "container_definitions" {
+}
 
 variable "health_check_path" {
   default = "/ping"
@@ -23,8 +25,8 @@ variable "api_enabled" {
 }
 
 variable "api_keys" {
-  type    = "list"
-  default = [ ]
+  type    = list(string)
+  default = []
 }
 
 variable "api_quota_limit" {
@@ -63,13 +65,13 @@ variable "cdn_hostname" {
 }
 
 variable "cdn_hostname_aliases" {
-  type    = "list"
-  default = [ ]
+  type    = list(string)
+  default = []
 }
 
 variable "cdn_hostname_redirects" {
-  type    = "list"
-  default = [ ]
+  type    = list(string)
+  default = []
 }
 
 variable "cdn_health_check_request_interval" {
@@ -87,3 +89,4 @@ variable "service_desired_count" {
 variable "loadbalancer_session_stickiness_enabled" {
   default = false
 }
+

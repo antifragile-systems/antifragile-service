@@ -1,6 +1,8 @@
-variable "infrastructure_name" {}
+variable "infrastructure_name" {
+}
 
-variable "name" {}
+variable "name" {
+}
 
 variable "enabled" {
   default = 0
@@ -14,13 +16,13 @@ variable "hostname" {
 }
 
 variable "hostname_aliases" {
-  type    = "list"
-  default = [ ]
+  type    = list(string)
+  default = []
 }
 
 variable "hostname_redirects" {
-  type    = "list"
-  default = [ ]
+  type    = list(string)
+  default = []
 }
 
 variable "aws_alb_target_group_arn" {
@@ -29,3 +31,4 @@ variable "aws_alb_target_group_arn" {
 variable "aws_route53_health_check_request_interval" {
   default = 30
 }
+

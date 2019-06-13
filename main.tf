@@ -1,3 +1,7 @@
+terraform {
+  required_version = ">= 0.12"
+}
+
 provider "aws" {
   version = "2.14.0"
 
@@ -50,6 +54,10 @@ module "api" {
 module "cdn" {
   source = "./modules/cdn"
 
+  providers = {
+    aws.global = aws.global
+  }
+
   enabled = var.cdn_enabled
 
   certificate_validation_enabled = var.cdn_certificate_validation_enabled
@@ -69,3 +77,4 @@ module "monitor" {
   infrastructure_name = var.infrastructure_name
   name                = var.name
 }
+

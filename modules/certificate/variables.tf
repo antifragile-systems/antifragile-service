@@ -6,9 +6,11 @@ variable "validation_enabled" {
   default = 1
 }
 
-variable "domain_name" {}
+variable "domain_name" {
+}
 
 variable "subject_alternative_names" {
-  type    = "list"
-  default = [ ]
+  type    = list(string)
+  default = []
 }
+
