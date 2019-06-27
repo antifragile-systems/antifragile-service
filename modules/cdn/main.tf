@@ -69,6 +69,7 @@ resource "aws_cloudfront_distribution" "antifragile-service" {
         "Host",
         "Origin",
         "Referer",
+        "User-Agent"
       ]
 
       cookies {
@@ -123,7 +124,8 @@ resource "aws_alb_listener_rule" "antifragile-service" {
     # brackets to avoid interpretation as a list of lists. If the expression
     # returns a single list item then leave it as-is and remove this TODO comment.
     values = [
-      element(concat([var.hostname], var.hostname_aliases), count.index),
+      concat([
+        var.hostname ], var.hostname_aliases)[ count.index ],
     ]
   }
 }
@@ -153,7 +155,7 @@ resource "aws_alb_listener_rule" "antifragile-service-1" {
     # brackets to avoid interpretation as a list of lists. If the expression
     # returns a single list item then leave it as-is and remove this TODO comment.
     values = [
-      element(var.hostname_redirects, count.index),
+      var.hostname_redirects[ count.index ],
     ]
   }
 }
