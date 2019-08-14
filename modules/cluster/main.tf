@@ -5,6 +5,7 @@ module "loadbalancer" {
   name                             = var.name
   container_port                   = var.container_port
   health_check_timeout             = var.health_check_timeout
+  health_check_interval            = var.health_check_interval
   health_check_path                = var.health_check_path
   health_check_path_preappend_name = var.health_check_path_preappend_name
   session_stickiness_enabled       = var.loadbalancer_session_stickiness_enabled

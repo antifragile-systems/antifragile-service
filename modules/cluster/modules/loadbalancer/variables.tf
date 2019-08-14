@@ -7,6 +7,9 @@ variable "name" {
 variable "health_check_timeout" {
 }
 
+variable "health_check_interval" {
+}
+
 variable "health_check_path" {
 }
 

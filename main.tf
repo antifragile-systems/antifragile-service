@@ -29,6 +29,7 @@ module "cluster" {
   infrastructure_name                     = var.infrastructure_name
   name                                    = var.name
   health_check_timeout                    = var.health_check_timeout
+  health_check_interval                   = var.health_check_interval
   health_check_path                       = var.health_check_path
   health_check_path_preappend_name        = var.health_check_path_preappend_name
   api_keys                                = var.api_keys

@@ -12,6 +12,10 @@ variable "health_check_timeout" {
   default = 4
 }
 
+variable "health_check_interval" {
+  default = 5
+}
+
 variable "health_check_path" {
   default = "/ping"
 }
