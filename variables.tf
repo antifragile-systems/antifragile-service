@@ -8,6 +8,10 @@ variable "name" {
 variable "container_definitions" {
 }
 
+variable "health_check_timeout" {
+  default = 4
+}
+
 variable "health_check_path" {
   default = "/ping"
 }

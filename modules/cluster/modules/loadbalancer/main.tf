@@ -24,7 +24,7 @@ resource "aws_alb_target_group" "antifragile-service" {
   health_check {
     healthy_threshold   = 2
     unhealthy_threshold = 2
-    timeout             = 4
+    timeout             = var.health_check_timeout
     port                = "traffic-port"
     path                = local.health_check_path
     interval            = 5

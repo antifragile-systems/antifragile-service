@@ -4,6 +4,9 @@ variable "infrastructure_name" {
 variable "name" {
 }
 
+variable "health_check_timeout" {
+}
+
 variable "health_check_path" {
 }
 
