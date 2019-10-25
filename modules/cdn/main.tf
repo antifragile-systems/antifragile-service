@@ -216,7 +216,7 @@ resource "aws_cloudwatch_metric_alarm" "antifragile-service" {
     Region         = "Global"
   }
 
-  threshold           = 15
+  threshold           = 5
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = 2
   period              = 60
