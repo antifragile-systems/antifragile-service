@@ -203,3 +203,30 @@ resource "aws_route53_record" "antifragile-infrastructure" {
   }
 }
 
+resource "aws_cloudwatch_metric_alarm" "antifragile-service" {
+  provider = aws.global
+
+  alarm_name = "${var.hostname} error rate"
+
+  metric_name = "5xxErrorRate"
+  namespace   = "AWS/CloudFront"
+
+  dimensions = {
+    DistributionId = aws_cloudfront_distribution.antifragile-service[ 0 ].id
+    Region         = "Global"
+  }
+
+  threshold           = 15
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = 2
+  period              = 60
+  statistic           = "Average"
+  treat_missing_data  = "notBreaching"
+
+  alarm_actions = [
+    data.aws_sns_topic.selected.arn,
+  ]
+  ok_actions    = [
+    data.aws_sns_topic.selected.arn,
+  ]
+}
