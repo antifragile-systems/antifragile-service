@@ -206,7 +206,7 @@ resource "aws_route53_record" "antifragile-infrastructure" {
 resource "aws_cloudwatch_metric_alarm" "antifragile-service" {
   provider = aws.global
 
-  alarm_name = "${var.hostname} error rate"
+  alarm_name = "${var.name} error rate"
 
   metric_name = "5xxErrorRate"
   namespace   = "AWS/CloudFront"

@@ -35,3 +35,32 @@ data "aws_lb" "selected" {
   name = var.infrastructure_name
 }
 
+data "aws_sns_topic" "selected" {
+  name = var.infrastructure_name
+}
+
+resource "aws_cloudwatch_metric_alarm" "antifragile-service" {
+  alarm_name = "${var.name} healthy host count"
+
+  metric_name = "HealthyHostCount"
+  namespace   = "AWS/ApplicationELB"
+
+  dimensions = {
+    LoadBalancer = data.aws_lb.selected.arn_suffix
+    TargetGroup  = aws_alb_target_group.antifragile-service.arn_suffix
+  }
+
+  threshold           = 0
+  comparison_operator = "LessThanOrEqualToThreshold"
+  evaluation_periods  = 1
+  period              = 60
+  statistic           = "Average"
+  treat_missing_data  = "breaching"
+
+  alarm_actions = [
+    data.aws_sns_topic.selected.arn,
+  ]
+  ok_actions    = [
+    data.aws_sns_topic.selected.arn,
+  ]
+}
