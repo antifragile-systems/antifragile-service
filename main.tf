@@ -34,6 +34,7 @@ module "cluster" {
   health_check_path_preappend_name        = var.health_check_path_preappend_name
   api_keys                                = var.api_keys
   loadbalancer_session_stickiness_enabled = var.loadbalancer_session_stickiness_enabled
+  aws_cloudwatch_log_group_name           = module.monitor.aws_cloudwatch_log_group_name
 }
 
 module "api" {

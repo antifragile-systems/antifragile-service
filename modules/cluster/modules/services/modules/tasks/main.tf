@@ -9,7 +9,7 @@ data "template_file" "container_definitions" {
   template = var.container_definitions
 
   vars = {
-    awslogs-group         = var.infrastructure_name
+    awslogs-group         = var.aws_cloudwatch_log_group_name
     awslogs-region        = var.aws_region
     awslogs-stream-prefix = var.name
     api_keys              = local.api_keys

@@ -27,3 +27,6 @@ variable "aws_ecs_service_desired_count" {
   default = 3
 }
 
+variable "aws_cloudwatch_log_group_name" {
+}
+

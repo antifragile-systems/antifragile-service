@@ -17,3 +17,5 @@ variable "api_keys" {
 variable "aws_region" {
 }
 
+variable "aws_cloudwatch_log_group_name" {
+}

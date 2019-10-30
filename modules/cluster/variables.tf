@@ -38,3 +38,6 @@ variable "loadbalancer_session_stickiness_enabled" {
   default = false
 }
 
+
+variable "aws_cloudwatch_log_group_name" {
+}

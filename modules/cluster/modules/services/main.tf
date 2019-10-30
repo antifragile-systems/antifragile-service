@@ -1,12 +1,13 @@
 module "tasks" {
   source = "./modules/tasks"
 
-  infrastructure_name   = var.infrastructure_name
-  name                  = var.name
-  container_port        = var.container_port
-  container_definitions = var.container_definitions
-  api_keys              = var.api_keys
-  aws_region            = var.aws_region
+  infrastructure_name           = var.infrastructure_name
+  name                          = var.name
+  container_port                = var.container_port
+  container_definitions         = var.container_definitions
+  api_keys                      = var.api_keys
+  aws_region                    = var.aws_region
+  aws_cloudwatch_log_group_name = var.aws_cloudwatch_log_group_name
 }
 
 resource "aws_ecs_service" "antifragile-service" {

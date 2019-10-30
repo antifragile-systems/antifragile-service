@@ -27,5 +27,6 @@ module "services" {
   aws_ecs_cluster_arn           = data.aws_ecs_cluster.antifragile-service.arn
   aws_alb_target_group_arn      = module.loadbalancer.aws_alb_target_group_arn
   aws_ecs_service_desired_count = var.service_desired_count
+  aws_cloudwatch_log_group_name = var.aws_cloudwatch_log_group_name
 }
 
