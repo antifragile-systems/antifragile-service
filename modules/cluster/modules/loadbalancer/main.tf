@@ -50,8 +50,8 @@ resource "aws_cloudwatch_metric_alarm" "antifragile-service" {
     TargetGroup  = aws_alb_target_group.antifragile-service.arn_suffix
   }
 
-  threshold           = 0
-  comparison_operator = "LessThanOrEqualToThreshold"
+  threshold           = 1
+  comparison_operator = "LessThanThreshold"
   evaluation_periods  = 1
   period              = 60
   statistic           = "Average"
