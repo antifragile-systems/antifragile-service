@@ -204,6 +204,8 @@ resource "aws_route53_record" "antifragile-infrastructure" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "antifragile-service" {
+  count = var.enabled
+
   provider = aws.global
 
   alarm_name = "${var.name} error rate"
