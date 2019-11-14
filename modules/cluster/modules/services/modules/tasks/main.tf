@@ -37,7 +37,6 @@ resource "aws_iam_role" "antifragile-service" {
 }
 EOF
 
-
   tags = {
     IsAntifragile = true
   }
