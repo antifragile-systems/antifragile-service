@@ -77,14 +77,14 @@ resource "aws_cloudfront_distribution" "antifragile-service" {
       }
     }
 
-    custom_error_response {
-      error_caching_min_ttl = 0
-      error_code            = 503
-    }
-
     compress = true
 
     viewer_protocol_policy = "redirect-to-https"
+  }
+
+  custom_error_response {
+    error_caching_min_ttl = 0
+    error_code            = 503
   }
 
   restrictions {
