@@ -6,3 +6,6 @@ output "aws_alb_target_group_arn" {
   value = module.loadbalancer.aws_alb_target_group_arn
 }
 
+output "aws_iam_role_name" {
+  value = module.services.aws_iam_role_name
+}
