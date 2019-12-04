@@ -84,6 +84,11 @@ resource "aws_cloudfront_distribution" "antifragile-service" {
 
   custom_error_response {
     error_caching_min_ttl = 0
+    error_code            = 502
+  }
+
+  custom_error_response {
+    error_caching_min_ttl = 0
     error_code            = 503
   }
 
