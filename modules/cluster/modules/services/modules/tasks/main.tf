@@ -81,6 +81,8 @@ resource "aws_ecs_task_definition" "antifragile-service" {
 
   execution_role_arn = aws_iam_role.antifragile-service.arn
 
+  task_role_arn = aws_iam_role.antifragile-service.arn
+
   volume {
     name = var.name
     host_path = "/mnt/efs/${var.name}"
