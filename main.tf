@@ -66,6 +66,7 @@ module "cdn" {
   certificate_validation_enabled = var.cdn_certificate_validation_enabled
 
   infrastructure_name                       = var.infrastructure_name
+  infrastructure_bucket                     = var.infrastructure_bucket
   name                                      = var.name
   hostname                                  = var.cdn_hostname
   hostname_aliases                          = var.cdn_hostname_aliases

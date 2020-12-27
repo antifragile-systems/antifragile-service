@@ -1,6 +1,9 @@
 variable "infrastructure_name" {
 }
 
+variable "infrastructure_bucket" {
+}
+
 variable "name" {
 }
 
