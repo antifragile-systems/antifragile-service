@@ -238,7 +238,7 @@ resource "aws_cloudwatch_metric_alarm" "antifragile-service" {
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = 2
   period              = 3600
-  datapoints_to_alarm = 1
+  datapoints_to_alarm = 2
   statistic           = "Average"
   treat_missing_data  = "notBreaching"
 
