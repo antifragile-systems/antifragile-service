@@ -103,6 +103,12 @@ resource "aws_cloudfront_distribution" "antifragile-service" {
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.1_2016"
   }
+
+  logging_config {
+    include_cookies = true
+    bucket          = "mylogs.s3.amazonaws.com"
+    prefix          = "log/cdn"
+  }
 }
 
 data "aws_lb_listener" "selected" {
@@ -228,10 +234,11 @@ resource "aws_cloudwatch_metric_alarm" "antifragile-service" {
     Region         = "Global"
   }
 
-  threshold           = 5
+  threshold           = 30
   comparison_operator = "GreaterThanOrEqualToThreshold"
-  evaluation_periods  = 2
-  period              = 60
+  evaluation_periods  = 1
+  period              = 3600
+  datapoints_to_alarm = 2
   statistic           = "Average"
   treat_missing_data  = "notBreaching"
 
