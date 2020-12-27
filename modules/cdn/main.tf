@@ -107,7 +107,7 @@ resource "aws_cloudfront_distribution" "antifragile-service" {
   logging_config {
     include_cookies = true
     bucket          = "${var.infrastructure_bucket}.s3.amazonaws.com"
-    prefix          = "log/cdn"
+    prefix          = "log/cdn/${var.name}"
   }
 }
 
